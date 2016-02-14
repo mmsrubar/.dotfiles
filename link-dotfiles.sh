@@ -1,8 +1,10 @@
 #!/bin/sh
 
-ROOT=$HOME/.new-dotfiles
+ROOT=$HOME/.dotfiles
 BACKUP=$ROOT/backup
 DOTDIRS=(.fonts)
+
+dotfiles=(.fonts .config/xfce4/terminal .gitconfig .dircolors .bashrc .powerline-shell.py .vimrc .vim)
 
 # Create backup dir if there is not one yet
 if [ ! -d $BACKUP ]; then
@@ -10,9 +12,15 @@ if [ ! -d $BACKUP ]; then
   mkdir $BACKUP
 fi
 
+# TODO: use getopt() and put this under -u option
+# Unlink the files first
+for file in ${dotfiles[@]}; do
+  echo "> unlinking $HOME/$file"
+  unlink $HOME/$file 2> /dev/null
+done
+
 # $1 file or dir that will be backed up
 backup() {
-  echo "backup() $1"
   if [ -h $HOME/$1 ];
   then
     echo "> $HOME/$1 already is a symbolic link"
@@ -26,7 +34,7 @@ backup() {
 
 # $1 file or dir which will be linked to $ROOT/$1
 link() {
-  echo "> Linking file $HOME/$1 into $ROOT/$1"
+  echo "> Linking file $HOME/$1 into $1"
   ln -s "$ROOT/$1" "$HOME/$1"
 }
 
