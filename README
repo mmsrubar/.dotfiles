@@ -3,3 +3,7 @@ XFCE TERMINAL
 If you're messing around with .config/xfce4/terminal/accels.scm then you have to
 log out and log in again to see chages. Running 'xfdesktop -R" didn't work for
 me.
+
+POWERSHELL-LINE
+===============
+Using powershell line from https://github.com/milkbikis/powerline-shell.git.
