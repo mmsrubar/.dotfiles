@@ -66,3 +66,12 @@ case "$answer" in
   *) backup ".dircolors"; 
     link ".dircolors" ;;
 esac
+
+# Bash settings
+echo -n "Link vim settings (.vimrc, .vim/)? [y/n] (Default: y): "
+read answer
+case "$answer" in 
+  n | no | No | No) ;; # do nothing
+  *) backup ".vimrc"; backup ".vim"
+    link ".vimrc"; link ".vim" ;;
+esac
