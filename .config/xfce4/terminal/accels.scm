@@ -35,5 +35,5 @@
 ; (gtk_accel_path "<Actions>/terminal-window/move-tab-right" "")
 ; (gtk_accel_path "<Actions>/terminal-window/set-title" "")
 ; (gtk_accel_path "<Actions>/terminal-window/paste-selection" "")
-; (gtk_accel_path "<Actions>/terminal-window/reset" "<Primary>r")
+; (gtk_accel_path "<Actions>/terminal-window/reset" "")
 ; (gtk_accel_path "<Actions>/terminal-window/tabs-menu" "")
