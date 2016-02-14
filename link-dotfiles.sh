@@ -59,12 +59,12 @@ case "$answer" in
 esac
 
 # Bash settings
-echo -n "Link bash settings (.dircolors, .bashrc)? [y/n] (Default: y): "
+echo -n "Link bash settings (.dircolors, .bashrc, ...)? [y/n] (Default: y): "
 read answer
 case "$answer" in 
   n | no | No | No) ;; # do nothing
-  *) backup ".dircolors"; 
-    link ".dircolors" ;;
+  *) backup ".dircolors"; backup ".bashrc"; backup ".powerline-shell.py";
+    link ".dircolors"; link ".bashrc"; link ".powerline-shell.py" ;;
 esac
 
 # Bash settings
