@@ -48,3 +48,21 @@ case "$answer" in
   *) backup ".config/xfce4/terminal"; 
     link ".config/xfce4/terminal" ;;
 esac
+
+# GIT config
+echo -n "Do you want to copy .gitconfig? [y/n] (Default: y): "
+read answer
+case "$answer" in 
+  n | no | No | No) ;; # do nothing
+  *) backup ".gitconfig"; 
+    link ".gitconfig" ;;
+esac
+
+# Bash settings
+echo -n "Link bash settings (.dircolors, .bashrc)? [y/n] (Default: y): "
+read answer
+case "$answer" in 
+  n | no | No | No) ;; # do nothing
+  *) backup ".dircolors"; 
+    link ".dircolors" ;;
+esac
