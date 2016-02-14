@@ -4,7 +4,8 @@ ROOT=$HOME/.dotfiles
 BACKUP=$ROOT/backup
 DOTDIRS=(.fonts)
 
-dotfiles=(.fonts .config/xfce4/terminal .gitconfig .dircolors .bashrc .powerline-shell.py .vimrc .vim)
+dotfiles=(.fonts .config/xfce4/terminal .gitconfig .dircolors .bashrc \
+  .powerline-shell.py .vimrc .vim .ghci .haskeline)
 
 # Create backup dir if there is not one yet
 if [ ! -d $BACKUP ]; then
@@ -82,4 +83,13 @@ case "$answer" in
   n | no | No | No) ;; # do nothing
   *) backup ".vimrc"; backup ".vim"
     link ".vimrc"; link ".vim" ;;
+esac
+
+# Haskell settings
+echo -n "Link Haskell settings? [y/n] (Default: y): "
+read answer
+case "$answer" in 
+  n | no | No | No) ;; # do nothing
+  *) backup ".ghci"; backup "..haskeline"
+    link ".ghci"; link ".haskeline" ;;
 esac
