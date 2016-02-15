@@ -21,6 +21,6 @@ ScrollingBar=TERMINAL_SCROLLBAR_NONE
 FontName=Terminess Powerline 10
 ColorCursor=#0000aaaa0000
 ColorSelectionUseDefault=FALSE
-BackgroundImageFile=/home/msrubar/.new-dotfiles/wallpapers/urxvt-bg.xpm
+BackgroundImageFile=/home/msrubar/.dotfiles/wallpapers/urxvt-bg.xpm
 BackgroundImageStyle=TERMINAL_BACKGROUND_STYLE_CENTERED
 
