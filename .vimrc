@@ -77,7 +77,7 @@ au BufNewFile *.h 0r ~/.vim/skeletons/h.skel | let IndentStyle = "h"
 au BufNewFile *.html 0r ~/.vim/skeletons/html.skel | let IndentStyle = "html"
 
 " default font for gvim
-set guifont=Monaco\ 9
-set guifont=Monospace\ 10
+"set guifont=Monaco\ 9
+set guifont=Monospace\ 9
 
 nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
