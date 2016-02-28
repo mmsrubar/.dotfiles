@@ -15,10 +15,15 @@ fi
 
 # TODO: use getopt() and put this under -u option
 # Unlink the files first
-for file in ${dotfiles[@]}; do
-  echo "> unlinking $HOME/$file"
-  unlink $HOME/$file 2> /dev/null
-done
+#for file in ${dotfiles[@]}; do
+#  echo "> unlinking $HOME/$file"
+#  unlink $HOME/$file 2> /dev/null
+#done
+
+un_link() {
+  echo "> unlinking $HOME/$1"
+  unlink $HOME/$1 2> /dev/null
+}
 
 # $1 file or dir that will be backed up
 backup() {
@@ -44,7 +49,8 @@ echo -n "Do you want to install new fonts? [y/n] (Default: y): "
 read answer
 case "$answer" in 
   n | no | No | No) ;; # do nothing
-  *) backup ".fonts"; 
+  *)un_link ".fonts";
+    backup ".fonts"; 
     link ".fonts"; 
     (cd $HOME/.fonts; sh install.sh) ;; #install
 esac
@@ -54,7 +60,8 @@ echo -n "Do you want to set your xfce terminal settings? [y/n] (Default: y): "
 read answer
 case "$answer" in 
   n | no | No | No) ;; # do nothing
-  *) backup ".config/xfce4/terminal"; 
+  *)un_link ".config/xfce4/terminal";
+    backup ".config/xfce4/terminal"; 
     link ".config/xfce4/terminal" ;;
 esac
 
@@ -63,7 +70,8 @@ echo -n "Do you want to copy .gitconfig? [y/n] (Default: y): "
 read answer
 case "$answer" in 
   n | no | No | No) ;; # do nothing
-  *) backup ".gitconfig"; 
+  *)un_link ".gitconfig";
+    backup ".gitconfig"; 
     link ".gitconfig" ;;
 esac
 
@@ -72,7 +80,8 @@ echo -n "Link bash settings (.dircolors, .bashrc, ...)? [y/n] (Default: y): "
 read answer
 case "$answer" in 
   n | no | No | No) ;; # do nothing
-  *) backup ".dircolors"; backup ".bashrc"; backup ".powerline-shell.py";
+  *)un_link ".dircolors"; un_link ".bashrc"; un_link ".powerline-shell.py";
+    backup ".dircolors"; backup ".bashrc"; backup ".powerline-shell.py";
     link ".dircolors"; link ".bashrc"; link ".powerline-shell.py" ;;
 esac
 
@@ -81,7 +90,8 @@ echo -n "Link vim settings (.vimrc, .vim/)? [y/n] (Default: y): "
 read answer
 case "$answer" in 
   n | no | No | No) ;; # do nothing
-  *) backup ".vimrc"; backup ".vim"
+  *)un_link ".vimrc"; un_link ".vim"
+    backup ".vimrc"; backup ".vim"
     link ".vimrc"; link ".vim" ;;
 esac
 
@@ -90,6 +100,15 @@ echo -n "Link Haskell settings? [y/n] (Default: y): "
 read answer
 case "$answer" in 
   n | no | No | No) ;; # do nothing
-  *) backup ".ghci"; backup "..haskeline"
+  *) un_link ".ghci"; un_link "..haskeline"
+    backup ".ghci"; backup "..haskeline"
     link ".ghci"; link ".haskeline" ;;
+esac
+
+# New XFCE themes
+echo -n "Link new XFCE themes? [y/n] (Default: y): "
+read answer
+case "$answer" in 
+  n | no | No | No) ;; # do nothing
+  *) un_link ".themes"; backup ".themes"; link ".themes" ;;
 esac
