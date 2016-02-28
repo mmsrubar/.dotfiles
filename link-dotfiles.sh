@@ -66,13 +66,13 @@ case "$answer" in
 esac
 
 # GIT config
-echo -n "Do you want to copy .gitconfig? [y/n] (Default: y): "
+echo -n "Do you want to copy GIT config? [y/n] (Default: y): "
 read answer
 case "$answer" in 
   n | no | No | No) ;; # do nothing
-  *)un_link ".gitconfig";
-    backup ".gitconfig"; 
-    link ".gitconfig" ;;
+  *)un_link ".gitconfig"; un_link ".git-completion.bash";
+    backup ".gitconfig"; backup ".git-completion.bash"; 
+    link ".gitconfig" ; link ".git-completion.bash" ;;
 esac
 
 # Bash settings

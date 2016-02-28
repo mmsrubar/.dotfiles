@@ -4,6 +4,8 @@
 export VISUAL=vim
 export SVN_EDITOR=gvim
 
+source ~/.git-completion.bash
+
 # save path on cd
 function cd {
     builtin cd $@
