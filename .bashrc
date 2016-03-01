@@ -63,6 +63,8 @@ fi
 alias vi="vim"
 alias pwd="pwd -P"							#avoid all symlinks
 alias cdd="cd .."								#upper directory
+alias cddd="cdd"								#more upper
+alias cdddd="cddd"							#the upperest :-)
 alias df="df -h"								#human readable
 alias rm="rm -irv"							#verbose + recursive + ask before you do
 alias cp="cp -iv"								#verbose + ask before you do
