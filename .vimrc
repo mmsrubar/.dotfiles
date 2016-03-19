@@ -40,6 +40,7 @@ map <F11> :!gcc `echo expand('%:t')`<CR>
 "nmap <C-Enter> <C-w><C-]><C-w>T
 " run make command
 map <F9> :make<CR>
+map <F12> :make clean<CR>
 map <F4> :w<CR>:e %:p:s,.h$,.X123X,:s,.c$,.h,:s,.X123X$,.c,<CR>
 
 " open tag list
