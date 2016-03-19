@@ -38,6 +38,10 @@ backup() {
 
 # $1 is file which will be linked to $ROOT/$1
 link() {
+  if [[ ! -d $HOME/`dirname $1` ]]; then
+    echo "> created the dir $HOME/`dirname $1` first"
+    mkdir $HOME/`dirname $1`
+  fi
   echo "> link   ~/$1 --> $ROOT/$1"
   ln -s "$ROOT/$1" "$HOME/$1"
 }
