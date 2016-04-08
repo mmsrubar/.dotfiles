@@ -1,7 +1,6 @@
 ; xfce4-terminal GtkAccelMap rc-file         -*- scheme -*-
 ; this file is an automated accelerator map dump
 ;
-; (gtk_accel_path "<Actions>/terminal-window/goto-tab-3" "")
 ; (gtk_accel_path "<Actions>/terminal-window/help-menu" "")
 ; (gtk_accel_path "<Actions>/terminal-window/file-menu" "")
 ; (gtk_accel_path "<Actions>/terminal-window/search" "<Primary><Shift>f")
@@ -16,14 +15,14 @@
 ; (gtk_accel_path "<Actions>/terminal-window/view-menu" "")
 ; (gtk_accel_path "<Actions>/terminal-window/show-toolbar" "")
 (gtk_accel_path "<Actions>/terminal-window/paste" "<Primary>v")
-(gtk_accel_path "<Actions>/terminal-window/copy" "<Primary>c")
+(gtk_accel_path "<Actions>/terminal-window/copy" "<Primary>y")
 ; (gtk_accel_path "<Actions>/terminal-window/edit-menu" "")
 ; (gtk_accel_path "<Actions>/terminal-window/fullscreen" "F11")
 ; (gtk_accel_path "<Actions>/terminal-window/detach-tab" "<Primary><Shift>d")
 (gtk_accel_path "<Actions>/terminal-window/prev-tab" "<Primary>h")
 ; (gtk_accel_path "<Actions>/terminal-window/move-tab-left" "")
 ; (gtk_accel_path "<Actions>/terminal-window/search-prev" "")
-; (gtk_accel_path "<Actions>/terminal-window/reset-and-clear" "")
+(gtk_accel_path "<Actions>/terminal-window/reset-and-clear" "<Primary>o")
 ; (gtk_accel_path "<Actions>/terminal-window/about" "")
 ; (gtk_accel_path "<Actions>/terminal-window/search-next" "")
 ; (gtk_accel_path "<Actions>/terminal-window/select-all" "<Primary><Shift>a")
