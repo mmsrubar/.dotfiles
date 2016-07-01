@@ -79,6 +79,7 @@ alias p1="ping www.stud.fit.vutbr.cz"
 alias toff="synclient TouchPadOff=1"
 alias ton="synclient TouchPadOff=0"
 alias grep="grep --color=auto"
+alias valgrind="valgrind --track-fds=yes"
 
 #if [ "`id -u`" == "0" ]; then
 #	export PS1='\[\e[0;31m\]\[\e[1;32m\]\u\[\e[0;39m\]:\[\e[1;33m\]\W\[\e[0;39m\]\[\e[1;35m\]\[\e[0;39m\] \[\e[1;37m\]\[\e[0;39m\]\# '
