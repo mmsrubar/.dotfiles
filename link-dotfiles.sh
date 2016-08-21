@@ -1,6 +1,5 @@
-#!/bin/sh
+#!/bin/bash
 
-#set -x
 #trap read debug
 
 ROOT=$HOME/.dotfiles
@@ -46,6 +45,8 @@ link() {
   ln -s "$ROOT/$1" "$HOME/$1"
 }
 
+command -v dialog >/dev/null 2>&1 || { echo >&2 "I require foo but it's not installed.  Aborting."; exit 1; }
+
 # get the list of dotfiles to a single string for the dialog utility
 counter=1
 for f in ${dotfiles[@]}; do
@@ -58,8 +59,11 @@ done
 results=`mktemp`
 dialog --title "Link my dotfiles" --checklist "Select desired dotfiles" 20 55 ${#dotfiles[*]} $list 2> $results
 
+
 for i in $(cat $results); do
+  echo "i: dotfiles[$((i-1))]"
   #echo "i: ${dotfiles[$((i-1))]}"
+	break
   backup "${dotfiles[$((i-1))]}"
   link "${dotfiles[$((i-1))]}"
 
