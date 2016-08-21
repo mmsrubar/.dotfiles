@@ -45,7 +45,7 @@ link() {
   ln -s "$ROOT/$1" "$HOME/$1"
 }
 
-command -v dialog >/dev/null 2>&1 || { echo >&2 "I require foo but it's not installed.  Aborting."; exit 1; }
+command -v dialog >/dev/null 2>&1 || { echo >&2 "I require dialog but it's not installed.  Aborting."; exit 1; }
 
 # get the list of dotfiles to a single string for the dialog utility
 counter=1
