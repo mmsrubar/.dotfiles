@@ -61,9 +61,6 @@ dialog --title "Link my dotfiles" --checklist "Select desired dotfiles" 20 55 ${
 
 
 for i in $(cat $results); do
-  echo "i: dotfiles[$((i-1))]"
-  #echo "i: ${dotfiles[$((i-1))]}"
-	break
   backup "${dotfiles[$((i-1))]}"
   link "${dotfiles[$((i-1))]}"
 
