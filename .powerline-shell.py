@@ -13,6 +13,11 @@ def warn(msg):
     print('[powerline-bash] ', msg)
 
 
+if py3:
+    def unicode(x):
+        return x
+
+
 class Powerline:
     symbols = {
         'compatible': {
@@ -89,6 +94,65 @@ class Powerline:
             self.bgcolor(next_segment[2]) if next_segment else self.reset,
             self.fgcolor(segment[4]),
             segment[3]))
+
+
+class RepoStats:
+    symbols = {
+        'detached': u'\u2693',
+        'ahead': u'\u2B06',
+        'behind': u'\u2B07',
+        'staged': u'\u2714',
+        'not_staged': u'\u270E',
+        'untracked': u'\u2753',
+        'conflicted': u'\u273C'
+    }
+
+    def __init__(self):
+        self.ahead = 0
+        self.behind = 0
+        self.untracked = 0
+        self.not_staged = 0
+        self.staged = 0
+        self.conflicted = 0
+
+    @property
+    def dirty(self):
+        qualifiers = [
+            self.untracked,
+            self.not_staged,
+            self.staged,
+            self.conflicted,
+        ]
+        return sum(qualifiers) > 0
+
+    def __getitem__(self, _key):
+        return getattr(self, _key)
+
+    def n_or_empty(self, _key):
+        """Given a string name of one of the properties of this class, returns
+        the value of the property as a string when the value is greater than
+        1. When it is not greater than one, returns an empty string.
+
+        As an example, if you want to show an icon for untracked files, but you
+        only want a number to appear next to the icon when there are more than
+        one untracked files, you can do:
+
+            segment = repo_stats.n_or_empty("untracked") + icon_string
+        """
+        return unicode(self[_key]) if int(self[_key]) > 1 else u''
+
+    def add_to_powerline(self, powerline, color):
+        def add(_key, fg, bg):
+            if self[_key]:
+                s = u" {}{} ".format(self.n_or_empty(_key), self.symbols[_key])
+                powerline.append(s, fg, bg)
+        add('ahead', color.GIT_AHEAD_FG, color.GIT_AHEAD_BG)
+        add('behind', color.GIT_BEHIND_FG, color.GIT_BEHIND_BG)
+        add('staged', color.GIT_STAGED_FG, color.GIT_STAGED_BG)
+        add('not_staged', color.GIT_NOTSTAGED_FG, color.GIT_NOTSTAGED_BG)
+        add('untracked', color.GIT_UNTRACKED_FG, color.GIT_UNTRACKED_BG)
+        add('conflicted', color.GIT_CONFLICTED_FG, color.GIT_CONFLICTED_BG)
+
 
 def get_valid_cwd():
     """ We check if the current working directory is valid or not. Typically
@@ -211,6 +275,24 @@ class Color(DefaultColor):
     pass
 
 
+def add_set_term_title_segment(powerline):
+    term = os.getenv('TERM')
+    if not (('xterm' in term) or ('rxvt' in term)):
+        return
+
+    if powerline.args.shell == 'bash':
+        set_title = '\\[\\e]0;\\u@\\h: \\w\\a\\]'
+    elif powerline.args.shell == 'zsh':
+        set_title = '\033]0;%n@%m: %~\007'
+    else:
+        import socket
+        set_title = '\033]0;%s@%s: %s\007' % (os.getenv('USER'), socket.gethostname().split('.')[0], powerline.cwd or os.getenv('PWD'))
+
+    powerline.append(set_title, None, None, '')
+
+
+
+add_set_term_title_segment(powerline)
 
 def add_username_segment(powerline):
     import os
@@ -230,30 +312,6 @@ def add_username_segment(powerline):
 
 
 add_username_segment(powerline)
-def add_hostname_segment(powerline):
-    if powerline.args.colorize_hostname:
-        from lib.color_compliment import stringToHashToColorAndOpposite
-        from lib.colortrans import rgb2short
-        from socket import gethostname
-        hostname = gethostname()
-        FG, BG = stringToHashToColorAndOpposite(hostname)
-        FG, BG = (rgb2short(*color) for color in [FG, BG])
-        host_prompt = ' %s ' % hostname.split('.')[0]
-
-        powerline.append(host_prompt, FG, BG)
-    else:
-        if powerline.args.shell == 'bash':
-            host_prompt = ' \\h '
-        elif powerline.args.shell == 'zsh':
-            host_prompt = ' %m '
-        else:
-            import socket
-            host_prompt = ' %s ' % socket.gethostname().split('.')[0]
-
-        powerline.append(host_prompt, Color.HOSTNAME_FG, Color.HOSTNAME_BG)
-
-
-add_hostname_segment(powerline)
 import os
 
 def add_ssh_segment(powerline):
@@ -356,29 +414,9 @@ def add_cwd_segment(powerline):
 
 
 add_cwd_segment(powerline)
-import os
-
-def add_read_only_segment(powerline):
-    cwd = powerline.cwd or os.getenv('PWD')
-
-    if not os.access(cwd, os.W_OK):
-        powerline.append(' %s ' % powerline.lock, Color.READONLY_FG, Color.READONLY_BG)
-
-
-add_read_only_segment(powerline)
 import re
 import subprocess
 import os
-
-GIT_SYMBOLS = {
-    'detached': u'\u2693',
-    'ahead': u'\u2B06',
-    'behind': u'\u2B07',
-    'staged': u'\u2714',
-    'notstaged': u'\u270E',
-    'untracked': u'\u2753',
-    'conflicted': u'\u273C'
-}
 
 def get_PATH():
     """Normally gets the PATH from the OS. This function exists to enable
@@ -411,31 +449,27 @@ def _get_git_detached_branch():
                          env=git_subprocess_env())
     detached_ref = p.communicate()[0].decode("utf-8").rstrip('\n')
     if p.returncode == 0:
-        branch = u'{} {}'.format(GIT_SYMBOLS['detached'], detached_ref)
+        branch = u'{} {}'.format(RepoStats.symbols['detached'], detached_ref)
     else:
         branch = 'Big Bang'
     return branch
 
 
 def parse_git_stats(status):
-    stats = {'untracked': 0, 'notstaged': 0, 'staged': 0, 'conflicted': 0}
+    stats = RepoStats()
     for statusline in status[1:]:
         code = statusline[:2]
         if code == '??':
-            stats['untracked'] += 1
+            stats.untracked += 1
         elif code in ('DD', 'AU', 'UD', 'UA', 'DU', 'AA', 'UU'):
-            stats['conflicted'] += 1
+            stats.conflicted += 1
         else:
             if code[1] != ' ':
-                stats['notstaged'] += 1
+                stats.not_staged += 1
             if code[0] != ' ':
-                stats['staged'] += 1
+                stats.staged += 1
 
     return stats
-
-
-def _n_or_empty(_dict, _key):
-    return _dict[_key] if int(_dict[_key]) > 1 else u''
 
 
 def add_git_segment(powerline):
@@ -452,36 +486,24 @@ def add_git_segment(powerline):
         return
 
     status = pdata[0].decode("utf-8").splitlines()
-
-    branch_info = parse_git_branch_info(status)
     stats = parse_git_stats(status)
-    dirty = (True if sum(stats.values()) > 0 else False)
+    branch_info = parse_git_branch_info(status)
 
     if branch_info:
+        stats.ahead = branch_info["ahead"]
+        stats.behind = branch_info["behind"]
         branch = branch_info['local']
     else:
         branch = _get_git_detached_branch()
 
     bg = Color.REPO_CLEAN_BG
     fg = Color.REPO_CLEAN_FG
-    if dirty:
+    if stats.dirty:
         bg = Color.REPO_DIRTY_BG
         fg = Color.REPO_DIRTY_FG
 
     powerline.append(' %s ' % branch, fg, bg)
-
-    def _add(_dict, _key, fg, bg):
-        if _dict[_key]:
-            _str = u' {}{} '.format(_n_or_empty(_dict, _key), GIT_SYMBOLS[_key])
-            powerline.append(_str, fg, bg)
-
-    if branch_info:
-        _add(branch_info, 'ahead', Color.GIT_AHEAD_FG, Color.GIT_AHEAD_BG)
-        _add(branch_info, 'behind', Color.GIT_BEHIND_FG, Color.GIT_BEHIND_BG)
-    _add(stats, 'staged', Color.GIT_STAGED_FG, Color.GIT_STAGED_BG)
-    _add(stats, 'notstaged', Color.GIT_NOTSTAGED_FG, Color.GIT_NOTSTAGED_BG)
-    _add(stats, 'untracked', Color.GIT_UNTRACKED_FG, Color.GIT_UNTRACKED_BG)
-    _add(stats, 'conflicted', Color.GIT_CONFLICTED_FG, Color.GIT_CONFLICTED_BG)
+    stats.add_to_powerline(powerline, Color)
 
 
 add_git_segment(powerline)
@@ -496,7 +518,7 @@ def add_exit_code_segment(powerline):
 add_exit_code_segment(powerline)
 def add_root_segment(powerline):
     root_indicators = {
-        'bash': ' \\$ ',
+        'bash': '',
         'zsh': ' %# ',
         'bare': ' $ ',
     }
