@@ -84,3 +84,9 @@ au BufNewFile *.html 0r ~/.vim/skeletons/html.skel | let IndentStyle = "html"
 set guifont=Terminess\ Powerline\ 8
 
 nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+
+python from powerline.vim import setup as powerline_setup
+python powerline_setup()
+python del powerline_setup
+set laststatus=2
+set t_Co=256
