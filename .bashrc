@@ -30,7 +30,7 @@ export PERL_LOCAL_LIB_ROOT="/home/hitxh/perl5";
 export PERL_MB_OPT="--install_base /home/hitxh/perl5";
 export PERL_MM_OPT="INSTALL_BASE=/home/hitxh/perl5";
 export PERL5LIB="/home/hitxh/perl5/lib/perl5/x86_64-linux-thread-multi:/home/hitxh/perl5/lib/perl5";
-export PATH="/home/hitxh/perl5/bin:$PATH:$HOME/bin";
+export PATH="/home/hitxh/perl5/bin:$PATH:$HOME/bin:$HOME/work/bin";
 export GREP_COLOR="1;31"
 export LD_LIBRARY_PATH=/usr/local/lib/
 
