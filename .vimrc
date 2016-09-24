@@ -90,3 +90,8 @@ python powerline_setup()
 python del powerline_setup
 set laststatus=2
 set t_Co=256
+
+vmap <C-c> "+yi
+vmap <C-x> "+c
+vmap <C-v> c<ESC>"+p
+imap <C-v> <C-r><C-o>+
