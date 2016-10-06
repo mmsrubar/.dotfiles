@@ -70,6 +70,7 @@ alias rm="rm -irv"							#verbose + recursive + ask before you do
 alias cp="cp -iv"								#verbose + ask before you do
 alias du="du -h"								#human readable
 alias l="ls --color=auto -lph"	#set colors from ~/.dircolors
+alias ll="ls --color=auto -lph"	#set colors from ~/.dircolors
 alias l.="ls -lah --color=auto"
 alias mkdir="mkdir -p"		 
 alias unrar="unrar e"
