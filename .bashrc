@@ -73,7 +73,12 @@ alias l="ls --color=auto -lph"	#set colors from ~/.dircolors
 alias ll="ls --color=auto -lph"	#set colors from ~/.dircolors
 alias l.="ls -lah --color=auto"
 alias mkdir="mkdir -p"		 
-alias unrar="unrar e"
+
+function mkd {
+  mkdir $1 && cd $1
+}
+
+alias unrar="unar"
 alias bunzip2="bunzip2 -kv"
 alias bzip2="bzip2 -kv"
 alias p1="ping www.stud.fit.vutbr.cz"
@@ -81,6 +86,8 @@ alias toff="synclient TouchPadOff=1"
 alias ton="synclient TouchPadOff=0"
 alias grep="grep --color=auto"
 alias valgrind="valgrind --track-fds=yes"
+
+export $(gnome-keyring-daemon --daemonize --start)
 
 #if [ "`id -u`" == "0" ]; then
 #	export PS1='\[\e[0;31m\]\[\e[1;32m\]\u\[\e[0;39m\]:\[\e[1;33m\]\W\[\e[0;39m\]\[\e[1;35m\]\[\e[0;39m\] \[\e[1;37m\]\[\e[0;39m\]\# '
