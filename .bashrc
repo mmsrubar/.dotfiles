@@ -82,8 +82,8 @@ alias unrar="unar"
 alias bunzip2="bunzip2 -kv"
 alias bzip2="bzip2 -kv"
 alias p1="ping www.stud.fit.vutbr.cz"
-alias toff="synclient TouchPadOff=1"
-alias ton="synclient TouchPadOff=0"
+alias toff="sudo synclient TouchPadOff=1"
+alias ton="sudo synclient TouchPadOff=0"
 alias grep="grep --color=auto"
 alias valgrind="valgrind --track-fds=yes"
 
@@ -109,7 +109,7 @@ export $(gnome-keyring-daemon --daemonize --start)
 #fi
 
 function _update_ps1() {
-    PS1="$(~/.powerline-shell.py $? 2> /dev/null)"
+    PS1="$(~/.powerline-shell.py $? 2> /dev/null)\n> "
 }
 
 if [ "$TERM" != "linux" ]; then
