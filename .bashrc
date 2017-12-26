@@ -82,8 +82,10 @@ alias unrar="unar"
 alias bunzip2="bunzip2 -kv"
 alias bzip2="bzip2 -kv"
 alias p1="ping www.stud.fit.vutbr.cz"
-alias toff="sudo synclient TouchPadOff=1"
-alias ton="sudo synclient TouchPadOff=0"
+
+# Enable/Disable touch pad
+alias toff='xinput set-prop 13 "Device Enabled" 0'
+alias ton='xinput set-prop 13 "Device Enabled" 1'
 alias grep="grep --color=auto"
 alias valgrind="valgrind --track-fds=yes"
 
